@@ -91,4 +91,43 @@ class file
         
         return $result_files;
     }
+
+    /**
+     * 获取文件后缀
+     */
+    public static function get_extension($file)
+    {
+        $info = pathinfo($file);
+        return $info['extension'];
+    }
+
+    /**
+     * 根据base64数据上传图片
+     */
+    public static function upload_img_by_base64($base64_data, $filedir, $filename)
+    {
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_data, $result)) {
+            $type = $result[2];
+            if (!file_exists($filedir)) {
+                mkdir($filedir, 0755, true);
+            }
+
+            // 获取文件后缀
+            $ext = self::get_extension($filename);
+            if (!$ext) {
+                $type = strtolower($type);
+                if ($type == 'jpeg') {
+                    $type = 'jpg';
+                }
+                $ext = $type;
+                $filename .= '.' . $ext;
+            }
+
+            $filepath = $filedir . '/' . $filename;
+            if (file_put_contents($filepath, base64_decode(str_replace($result[1], '', $base64_data)))) {
+                return $filepath;
+            }
+        }
+        return false;
+    }
 }

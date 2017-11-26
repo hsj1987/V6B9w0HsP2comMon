@@ -8,6 +8,7 @@ use common\helper\output;
 use common\helper\file;
 use common\helper\utils;
 use common\frame\app_base;
+use common\helper\env;
 
 class web_app extends app_base
 {
@@ -143,19 +144,14 @@ class web_app extends app_base
      */
     private function _get_version_info()
     {
-        $version_lines = file::get_line(APP_ROOT . '/rev', 0, 2);
-        if (! $version_lines) {
-            return [];
+        global $VERSION_INFO;
+        if (env::is_test()) {
+            $VERSION_INFO = [
+                'num' => time(),
+                'make_time' => date('Y-m-d', time())
+            ];
         }
-        
-        list ($version, $make_date) = $version_lines;
-        $version = trim($version);
-        $version_arr = explode('.', $version, 3); // 版本管理
-        return [
-            'num' => $version_arr[0] . '.' . $version_arr[1],
-            'hash' => $version_arr[2],
-            'make_time' => $make_date
-        ];
+        return $VERSION_INFO;
     }
 
     /**

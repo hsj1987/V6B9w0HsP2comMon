@@ -20,7 +20,7 @@ abstract class controller_base
     protected $assign_url_params = false;
     
     // 是否分配版本到smarty
-    protected $assign_version = false;
+    protected $assign_version = true;
 
     // 是否分配页面route到smarty
     protected $assign_page_route = false;
@@ -67,7 +67,7 @@ abstract class controller_base
             }
             
             if ($this->assign_version) {
-                $this->assign('version', app::$instance->version_info['hash']);
+                $this->assign('version', app::$instance->version_info['num']);
             }
 
             if ($this->assign_page_route) {

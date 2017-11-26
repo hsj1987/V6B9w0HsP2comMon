@@ -43,6 +43,10 @@ $SERVICES_URL = [
 
 ];
 
+$VERSION_INFO = [
+    'num' => '1.0',
+    'make_time' => '2017-11-26'
+];
 
 $MAIN_DB_DSN = [
     'db_name' => 'keyi',
