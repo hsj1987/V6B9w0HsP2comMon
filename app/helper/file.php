@@ -125,7 +125,7 @@ class file
 
             $filepath = $filedir . '/' . $filename;
             if (file_put_contents($filepath, base64_decode(str_replace($result[1], '', $base64_data)))) {
-                return $filepath;
+                return $filename;
             }
         }
         return false;
