@@ -161,7 +161,7 @@ class medoo extends \medoo
     }
     
     // 分页获取数据
-    function getpaged($tblname, $columns = '*', $page_no = 1, $page_size = 10, $where = null, $sort = null)
+    function get_paged($tblname, $columns = '*', $page_no = 1, $page_size = 10, $where = null, $sort = null)
     {
         if ($where == null)
             $where = array();
@@ -174,6 +174,22 @@ class medoo extends \medoo
             $where['ORDER'] = $sort;
         }
         return $this->select($tblname, $columns, $where);
+    }
+
+    // 分页获取数据（需要关联查询）
+    function get_join_paged($tblname, $join, $columns = '*', $page_no = 1, $page_size = 10, $where = null, $sort = null)
+    {
+        if ($where == null)
+            $where = array();
+        $where['LIMIT'] = [
+            ($page_no - 1) * $page_size,
+            $page_size
+        ];
+        
+        if (! empty($sort)) {
+            $where['ORDER'] = $sort;
+        }
+        return $this->select($tblname, $join, $columns, $where);
     }
     
     // 向where追加分页
