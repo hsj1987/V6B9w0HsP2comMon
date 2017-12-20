@@ -187,4 +187,20 @@ class utils
         $uri = $protocol . $_SERVER['HTTP_HOST'];
         return $uri;
     }
+
+    /**
+     * url参数转json
+     */
+    public static function url_params_to_json($params_str)
+    {
+        $result = [];
+        $a = explode("&",$params_str);
+        foreach($a as $v) {
+            $b = explode("=", $v);
+            $key = urldecode($b[0]);
+            $value = urldecode($b[1]);
+            $result[$key] = $value;			
+        }
+        return $result;
+    }
 }
