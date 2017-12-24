@@ -11,7 +11,11 @@ class log_request extends log_base
      * @param string $params 自定义参数
      */
     public function execute_start($params = null)
-    {
+    {   
+        if (!$this->is_log_execute) {
+            return;
+        }
+
         try {
             
             $post_str = file_get_contents('php://input');
@@ -47,6 +51,10 @@ class log_request extends log_base
      */
     public function execute_end($output, $execute_time, $params = null)
     {
+        if (!$this->is_log_execute) {
+            return;
+        }
+        
         try {
             $content['execute_step'] = 'end';
             $content['execute_time'] = $execute_time;

@@ -164,6 +164,9 @@ class web_app extends app_base
             $route = $_REQUEST['r'];
         } else {
             $route = $_SERVER['REDIRECT_URL'];
+            if ($route == NULL) {
+                $route = 'http.php';
+            }
         }
         $route = strtolower(trim($route, '/'));
         if(substr($route, -5) == '.html') {

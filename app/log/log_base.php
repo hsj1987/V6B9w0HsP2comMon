@@ -14,6 +14,9 @@ class log_base
     
     // 是否记录HTTP API请求 LOG
     public $is_log_http = false;
+
+    // 是否记录执行 LOG
+    public $is_log_execute = false;
     
     // LOG ID
     public $log_id;
@@ -35,7 +38,7 @@ class log_base
     
     private function _init($config)
     {
-        $logs = ['sql', 'kv', 'http'];
+        $logs = ['sql', 'kv', 'http', 'execute'];
         
         // 初始化LOG实例
         if ($config['outputs']) {
@@ -58,6 +61,7 @@ class log_base
         $this->is_log_sql = false;
         $this->is_log_kv = false;
         $this->is_log_http = false;
+        $this->is_log_execute = false;
         $this->outputs = [];
     }
     
@@ -124,11 +128,13 @@ class log_base
      */
     public function execute_start($params = null)
     {
-        $content = [
-            'execute_step' => 'start'
-        ];
-        $this->log_content('info', $content, true, $params);
-        $this->log_execute_start = true;
+        if ($this->is_log_execute) {
+            $content = [
+                'execute_step' => 'start'
+            ];
+            $this->log_content('info', $content, true, $params);
+            $this->log_execute_start = true;
+        }
     }
 
     /**
@@ -139,12 +145,14 @@ class log_base
      */
     public function execute_end($output, $execute_time, $params = null)
     {
-        $content = [
-            'execute_step' => 'end',
-            'execute_time' => $execute_time,
-            'output' => $output
-        ];
-        $this->log_content('info', $content, true, $params);
+        if ($this->is_log_execute) {
+            $content = [
+                'execute_step' => 'end',
+                'execute_time' => $execute_time,
+                'output' => $output
+            ];
+            $this->log_content('info', $content, true, $params);
+        }
     }
 
     /**

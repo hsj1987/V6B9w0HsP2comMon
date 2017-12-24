@@ -47,11 +47,3 @@ $VERSION_INFO = [
     'num' => '1.0',
     'make_time' => '2017-11-26'
 ];
-
-$MAIN_DB_DSN = [
-    'db_name' => 'keyi',
-    'db_host' => '127.0.0.1',
-    'db_port' => 3306,
-    'db_user' => 'root',
-    'db_pass' => '123456'
-];
